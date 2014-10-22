@@ -1,0 +1,54 @@
+tic;
+close all;
+clear all;
+
+dir = 'im/';
+d0 = parsePfm(strcat(dir,'piano-disp0-perf.pfm'));
+d1 = parsePfm(strcat(dir,'piano-disp1-perf.pfm'));
+im0 = im2double(imread(strcat(dir,'piano0-perf.png')));
+im1 = im2double(imread(strcat(dir,'piano1-perf.png')));
+im0 = rgb2gray(im0);
+im1 = rgb2gray(im1);
+rows = size(im0,1);
+colums = size(im0,2);
+t_size = 32;
+%% compute occlussion
+% figure
+% imagesc(d0);
+% colorbar;
+[ol,im0] = ol_compute(d0,d1,im0);
+% figure
+% imshow(im0);
+% % h = imshow(ol);
+% str = sprintf('piano0-occlussion.jpg');
+% title(str);
+%% compute errors pixel wise
+ep = zeros([round(rows/t_size) round(colums/t_size)]);
+for i=16:t_size:rows
+    m = (i+16)/t_size;
+    for j=16:t_size:colums     
+        n = (j+16)/t_size;
+        count = 0;
+        tmp = 0;
+        for p = i-15:i+16
+            for q = j-15:j+16
+                if ol(p,q)==0
+                    count=count+1;
+                    tmp = tmp+((im0(p,q)-im1(p,q)+d0(p,q))/255)^2;
+                end
+            end
+        end
+        if count~=0
+            ep(m,n) = tmp/count;
+%         else 
+%             ep(m,n) = 0;
+        end
+    end
+end
+
+filter = sort(ep(:));
+threshold = filter(round(.97*round(rows/t_size)*round(colums/t_size)),1);
+
+
+toc;
+    
