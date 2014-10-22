@@ -16,14 +16,14 @@ for i=16:t_size:rows
                 if ol(p,q)==0
                     count=count+1;
                     tmp = tmp+((im0(p,q)-im1(p,q)+d0(p,q))/255)^2;
-                else oc_in = 1;
+                else oc_in=true;
                 end
             end
         end
-        if count == 0 % oc_in == 1
-            ep(m,n) = inf;           
-        else 
+        if count~=0
             ep(m,n) = tmp/count;
+        else 
+            ep(m,n) = inf;
         end
     end
 end

@@ -22,33 +22,27 @@ t_size = 32;
 % % h = imshow(ol);
 % str = sprintf('piano0-occlussion.jpg');
 % title(str);
-%% compute errors pixel wise
-ep = zeros([round(rows/t_size) round(colums/t_size)]);
-for i=16:t_size:rows
-    m = (i+16)/t_size;
-    for j=16:t_size:colums     
-        n = (j+16)/t_size;
-        count = 0;
-        tmp = 0;
-        for p = i-15:i+16
-            for q = j-15:j+16
-                if ol(p,q)==0
-                    count=count+1;
-                    tmp = tmp+((im0(p,q)-im1(p,q)+d0(p,q))/255)^2;
-                end
-            end
+%% compute errors pixel-wise
+epl = ep_compute( im0, im1, d0, ol, t_size );
+
+epl_array = sort(epl(:));
+persentage = round(.92*size(epl,1)*size(epl,2));
+threshold = epl_array(persentage);
+
+%%
+bin_size = 0.05;
+max = ceil(threshold/bin_size);
+x = 0 : bin_size : max*bin_size;
+y = zeros(1,max);
+for i = 1:persentage
+    for j= 0:bin_size:threshold+bin_size
+        if epl_array(i,1)<j
+            y(1,floor(j/bin_size)) = y(1,floor(j/bin_size)) + 1;
+            break
         end
-        if count~=0
-            ep(m,n) = tmp/count;
-%         else 
-%             ep(m,n) = 0;
-        end
-    end
+    end  
 end
-
-filter = sort(ep(:));
-threshold = filter(round(.97*round(rows/t_size)*round(colums/t_size)),1);
-
-
+figure
+imshow(bar(x,y));
 toc;
     
