@@ -15,12 +15,12 @@ for i=16:t_size:rows
             for q = j-15:j+16
                 if ol(p,q)==0
                     count=count+1;
-                    tmp = tmp+((im0(p,q)-im1(p,q)+d0(p,q))/255)^2;
+                    tmp = tmp+((im0(p,q)-im1(p,round(q-d0(p,q))))/255)^2;
                 else oc_in = 1;
                 end
             end
         end
-        if  oc_in == 1 % count == 0 %
+        if count == 0 % oc_in == 1
             ep(m,n) = inf;           
         else 
             ep(m,n) = tmp/count;
