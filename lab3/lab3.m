@@ -13,15 +13,15 @@ rows = size(im0,1);
 colums = size(im0,2);
 t_size = 32;
 %% compute occlussion
-% figure
-% imagesc(d0);
-% colorbar;
+figure
+imagesc(d0);
+colorbar;
 [ol,im0] = ol_compute(d0,d1,im0);
-% figure
-% imshow(im0);
-% % h = imshow(ol);
-% str = sprintf('piano0-occlussion.jpg');
-% title(str);
+figure
+imshow(im0);
+% h = imshow(ol);
+str = sprintf('piano0-occlussion.jpg');
+title(str);
 %% compute errors pixel-wise
 epl = ep_compute( im0, im1, d0, ol, t_size );
 

@@ -18,7 +18,7 @@ for i = 1:rows
         elseif xr<1
             ol(i,j) = -1;
             im0(i,j,:) = 0;
-        elseif abs((d0(yl,xl)-d1(yr,xr)))<0.5
+        elseif abs((d0(yl,xl)-d1(yr,xr)))<0.3
             ol(i,j)=0;
         else ol(i,j)=1; im0(i,j,:) = 0;      
         end

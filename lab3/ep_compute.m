@@ -20,7 +20,7 @@ for i=16:t_size:rows
                 end
             end
         end
-        if count == 0 % oc_in == 1
+        if  oc_in == 1 % count == 0 %
             ep(m,n) = inf;           
         else 
             ep(m,n) = tmp/count;
