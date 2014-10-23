@@ -3,6 +3,8 @@ function [ ep ] = ep_compute( im0, im1, d0, ol, t_size )
 %   Detailed explanation goes here
 rows = size(ol,1);
 colums = size(ol,2);
+im0 = rgb2gray(im0).*255;
+im1 = rgb2gray(im1).*255;
 ep = zeros([round(rows/t_size) round(colums/t_size)]);
 for i=16:t_size:rows
     m = (i+16)/t_size;
@@ -14,13 +16,16 @@ for i=16:t_size:rows
         for p = i-15:i+16
             for q = j-15:j+16
                 if ol(p,q)==0
-                    count=count+1;
-                    tmp = tmp+((im0(p,q)-im1(p,round(q-d0(p,q))))/255)^2;
+                    x_new = round(q-d0(i,j));
+                    if x_new > 0
+                        count=count+1;
+                        tmp = tmp+((im0(p,q)-im1(i,x_new))/255)^2;
+                    end                    
                 else oc_in = 1;
                 end
             end
         end
-        if count == 0 % oc_in == 1
+        if oc_in == 1 %count == 0% 
             ep(m,n) = inf;           
         else 
             ep(m,n) = tmp/count;
