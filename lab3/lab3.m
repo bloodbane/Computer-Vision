@@ -2,6 +2,7 @@ tic;
 close all;
 clear all;
 
+bin_size = 0.0005;
 dir = 'im/';
 d0 = parsePfm(strcat(dir,'piano-disp0-perf.pfm'));
 d1 = parsePfm(strcat(dir,'piano-disp1-perf.pfm'));
@@ -25,35 +26,30 @@ t_size = 32;
 % title(str);
 %% compute errors pixel-wise
 epl = ep_compute( im0, im1, d0, ol, t_size );
-
 epl_array = sort(epl(:));
-for i = 0:size(epl_array,1)
-    if epl_array(i+1,1) == inf;
-        max_point = i;
-        break;
-    end
-end
-        
-persentage = round(.92*size(epl,1)*size(epl,2));
-threshold = epl_array(persentage);
-
-
-%%
-bin_size = 0.005;
-% max = ceil(threshold/bin_size);
-% x = bin_size : bin_size : max*bin_size;
-% y = zeros(1,max);
-% for i = 1:persentage
-%     for j= 0:bin_size:threshold+bin_size
-%         if epl_array(i,1)<j
-%             y(1,floor(j/bin_size)) = y(1,floor(j/bin_size)) + 1;
-%             break
-%         end
-%     end  
-% end
+fv_epl = epl_array(~isinf(epl_array))';
 figure
-% bar(x,y);
-x = 0:bin_size:epl_array(max_point);
-hist(epl_array(1:max_point,1)',x);
+x = 0:bin_size:fv_epl(size(fv_epl,2));
+hist(fv_epl,x);
+%% compute errors scattered-networks
+esl = es_compute( im0, im1, d0, ol, t_size );
+esl_array = sort(esl(:));
+fv_esl = esl_array(~isinf(esl_array))';
+figure
+x = 0:bin_size:fv_esl(size(fv_esl,2));
+hist(fv_esl,x);
+%%
+persentage = round(.95*size(fv_epl,2));
+% threshold = epl_array(persentage);
+nfv_epl = fv_epl(1,1:persentage);
+nfv_esl = fv_esl(1,1:persentage);
+x = 0:bin_size:nfv_epl(size(nfv_epl,2));
+ep_hist = hist(nfv_epl,x)/size(nfv_epl,2);
+figure
+bar(x,ep_hist)
+x = 0:bin_size:nfv_esl(size(nfv_esl,2));
+es_hist = hist(nfv_esl,x)/size(nfv_epl,2);
+figure
+bar(x,es_hist)
 toc;
     
