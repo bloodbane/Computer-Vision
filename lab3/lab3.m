@@ -52,7 +52,7 @@ xsl = 0:bin_size:nfv_esl(size(nfv_esl,2));
 es_hist = hist(nfv_esl,xsl)/size(nfv_esl,2);
 figure
 bar(xsl,es_hist)
-%%
+%% mean error and standard deviation
 epl_me = 0;
 epl_me2 = 0;
 for i=1:size(nfv_epl,2)
@@ -83,49 +83,48 @@ end
 epl_sd = sqrt(abs(epl_me2-epl_me^2));
 esl_sd = sqrt(abs(esl_me2-esl_me^2));
 %% rd
-% r = randi([-2,2],rows,colums);
-% rd_d0 = d0 + r;
-% [rd_ol, rd_im_new] = ol_compute(rd_d0,d1,im0);
-% rd_epl = ep_compute( im0, im1, rd_d0, rd_ol, t_size );
-% rd_epl_array = sort(rd_epl(:));
-% rd_fv_epl = rd_epl_array(~isinf(rd_epl_array))';
-% rd_esl = es_compute( im0, im1, rd_d0, rd_ol, t_size );
-% rd_esl_array = sort(rd_esl(:));
-% rd_fv_esl = rd_esl_array(~isinf(rd_esl_array))';
-% rd_nfv_epl = rd_fv_epl(1,1:persentage);
-% rd_nfv_esl = rd_fv_esl(1,1:persentage);
-% rd_xpl = 0:bin_size:rd_nfv_epl(size(rd_nfv_epl,2));
-% rd_ep_hist = hist(rd_nfv_epl,rd_xpl)/size(rd_nfv_epl,2);
-% rd_xsl = 0:bin_size:rd_nfv_esl(size(rd_nfv_esl,2));
-% rd_es_hist = hist(rd_nfv_esl,rd_xsl)/size(rd_nfv_esl,2);
-% epl_me_rd = 0;
-% epl_me2_rd = 0;
-% for i=1:size(rd_nfv_epl,2)
-%     pr = 0;
-%     for j=1:size(rd_xpl,2)
-%         if rd_xpl(j)>rd_nfv_epl(i)
-%             pr = rd_ep_hist(j-1);
-%             break;
-%         end
-%     end
-%     epl_me_rd = epl_me_rd + rd_nfv_epl(i)*pr;
-%     epl_me2_rd = epl_me2_rd + rd_nfv_epl(i)^2*pr;
-% end
-% esl_me_rd = 0;
-% esl_me2_rd = 0;
-% for i=1:size(rd_nfv_esl,2)
-%     pr = 0;
-%     for j=1:size(rd_xsl,2)
-%         if rd_xsl(j)>rd_nfv_esl(i)
-%             pr = rd_es_hist(j-1);
-%             break;
-%         end
-%     end
-%     esl_me_rd = esl_me_rd + rd_nfv_esl(i)*pr;
-%     esl_me2_rd = esl_me2_rd + rd_nfv_esl(i)^2*pr;
-% end
-% epl_sd_rd = sqrt(abs(epl_me2_rd-epl_me_rd^2));
-% esl_sd_rd = sqrt(abs(esl_me2_rd-esl_me_rd^2));
+r = randi([-2,1],rows,colums)+rand(size(d0),'like',d0);
+rd_d0 = d0 + r;
+rd_epl = ep_compute( im0, im1, rd_d0, ol, t_size );
+rd_epl_array = sort(rd_epl(:));
+rd_fv_epl = rd_epl_array(~isinf(rd_epl_array))';
+rd_esl = es_compute( im0, im1, rd_d0, ol, t_size );
+rd_esl_array = sort(rd_esl(:));
+rd_fv_esl = rd_esl_array(~isinf(rd_esl_array))';
+rd_nfv_epl = rd_fv_epl(1,1:persentage);
+rd_nfv_esl = rd_fv_esl(1,1:persentage);
+rd_xpl = 0:bin_size:rd_nfv_epl(size(rd_nfv_epl,2));
+rd_ep_hist = hist(rd_nfv_epl,rd_xpl)/size(rd_nfv_epl,2);
+rd_xsl = 0:bin_size:rd_nfv_esl(size(rd_nfv_esl,2));
+rd_es_hist = hist(rd_nfv_esl,rd_xsl)/size(rd_nfv_esl,2);
+epl_me_rd = 0;
+epl_me2_rd = 0;
+for i=1:size(rd_nfv_epl,2)
+    pr = 0;
+    for j=1:size(rd_xpl,2)
+        if rd_xpl(j)>rd_nfv_epl(i)
+            pr = rd_ep_hist(j-1);
+            break;
+        end
+    end
+    epl_me_rd = epl_me_rd + rd_nfv_epl(i)*pr;
+    epl_me2_rd = epl_me2_rd + rd_nfv_epl(i)^2*pr;
+end
+esl_me_rd = 0;
+esl_me2_rd = 0;
+for i=1:size(rd_nfv_esl,2)
+    pr = 0;
+    for j=1:size(rd_xsl,2)
+        if rd_xsl(j)>rd_nfv_esl(i)
+            pr = rd_es_hist(j-1);
+            break;
+        end
+    end
+    esl_me_rd = esl_me_rd + rd_nfv_esl(i)*pr;
+    esl_me2_rd = esl_me2_rd + rd_nfv_esl(i)^2*pr;
+end
+epl_sd_rd = sqrt(abs(epl_me2_rd-epl_me_rd^2));
+esl_sd_rd = sqrt(abs(esl_me2_rd-esl_me_rd^2));
 
 toc;
     
