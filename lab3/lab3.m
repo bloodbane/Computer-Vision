@@ -4,25 +4,26 @@ clear all;
 
 bin_size = 0.0005;
 dir = 'im/';
-d0 = parsePfm(strcat(dir,'piano-disp0-perf.pfm'));
-d1 = parsePfm(strcat(dir,'piano-disp1-perf.pfm'));
+d0 = parsePfm(strcat(dir,'jadeplant-disp0-perf.pfm'));
+d1 = parsePfm(strcat(dir,'jadeplant-disp1-perf.pfm'));
 
-im0 = im2double(imread(strcat(dir,'piano0-perf.png')));
-im1 = im2double(imread(strcat(dir,'piano1-perf.png')));
+im0 = im2double(imread(strcat(dir,'jadeplant0-perf.png')));
+im1 = im2double(imread(strcat(dir,'jadeplant1-perf.png')));
 im0 = rgb2gray(im0);
 im1 = rgb2gray(im1);
 rows = size(im0,1);
 colums = size(im0,2);
 t_size = 32;
 %% compute occlussion
-% figure
-% imagesc(d0);
-% colorbar;
+figure
+imagesc(d0);
+colorbar;
 [ol,im_new] = ol_compute(d0,d1,im0);
 
-% figure
-% imshow(im_new);
-% % h = imshow(ol);
+figure
+imshow(im_new);
+figure
+h = imshow(ol);
 % str = sprintf('piano0-occlussion.jpg');
 % title(str);
 %% compute errors pixel-wise
