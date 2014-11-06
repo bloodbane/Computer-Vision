@@ -32,6 +32,7 @@ fv_epl = epl_array(~isinf(epl_array))';
 figure
 xp = 0:bin_size:fv_epl(size(fv_epl,2));
 epl_m = hist(fv_epl,xp);
+hist(fv_epl,xp);
 %% compute errors scattered-networks
 esl = es_compute( im0, im1, d0, ol, t_size );
 esl_array = sort(esl(:));
@@ -39,6 +40,7 @@ fv_esl = esl_array(~isinf(esl_array))';
 figure
 xs = 0:bin_size:fv_esl(size(fv_esl,2));
 esl_m = hist(fv_esl,xs);
+hist(fv_esl,xs);
 %%
 persentage = round(.95*size(fv_epl,2));
 % threshold = epl_array(persentage);
