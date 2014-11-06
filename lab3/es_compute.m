@@ -8,8 +8,8 @@ theta_num = size(thetas,2);
 
 s0_l = gaussian2dconv(im0,6);
 s0_r = gaussian2dconv(im1,6);
-s1_l = zeros([size(im0,1) size(im1,2) sigma_num theta_num]);
-s1_r = zeros([size(im0,1) size(im1,2) sigma_num theta_num]);
+s1_l = zeros([size(im0,1) size(im0,2) sigma_num theta_num]);
+s1_r = zeros([size(im1,1) size(im1,2) sigma_num theta_num]);
 
 for i = 1:sigma_num
   for j = 1:theta_num
@@ -45,12 +45,13 @@ for i=16:t_size:rows
             tmp = (s0_l(i,j)-s0_r(i,x_new))^2;
             for p = 1:sigma_num
                 for q = 1:theta_num
-                    tmp = tmp + (s1_l(i,j,p,q)- s1_l(i,x_new,p,q))^2;
+                    tmp = tmp + (s1_l(i,j,p,q) - s1_r(i,x_new,p,q))^2;
                 end
             end
-            es(m,n) = tmp/19;
+            es(m,n) = tmp/(sigma_num*theta_num+1);
         end
     end
 end
+es = es;
 end
 
