@@ -52,6 +52,5 @@ for i=16:t_size:rows
         end
     end
 end
-es = es;
 end
 

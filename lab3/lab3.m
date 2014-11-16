@@ -5,9 +5,9 @@ tic;
 bin_size = 0.0001;
 t_size = 32;
 threshold = .95;
-times = 3;
+times = 1;
 
-dir = 'im/';
+dir = '../im/';
 object = 'piano';
 d0 = parsePfm(strcat(dir,object,'0-disp-perf.pfm'));
 d1 = parsePfm(strcat(dir,object,'1-disp-perf.pfm'));
@@ -45,7 +45,7 @@ nfv_epl = fv_epl(1,1:percentage);
 xph = 0:bin_size:nfv_epl(size(nfv_epl,2))+bin_size;
 epl_hist = hist(nfv_epl,xph)/size(nfv_epl,2);
 nfv_esl = fv_esl(1,1:percentage).*times;
-xsh = 0:bin_size/2:nfv_esl(size(nfv_esl,2))+bin_size;
+xsh = 0:bin_size/5:nfv_esl(size(nfv_esl,2))+bin_size;
 esl_m = hist(nfv_esl,xsh);
 esl_hist = hist(nfv_esl,xsh)/size(nfv_esl,2);
 %% rd
@@ -63,7 +63,7 @@ rd_nfv_epl = rd_fv_epl(1,1:percentage);
 rd_xph = 0:bin_size:rd_nfv_epl(size(rd_nfv_epl,2))+bin_size;
 rd_epl_hist = hist(rd_nfv_epl,rd_xph)/size(rd_nfv_epl,2);
 rd_nfv_esl = rd_fv_esl(1,1:percentage).*times;
-rd_xsh = 0:bin_size/2:rd_nfv_esl(size(rd_nfv_esl,2))+bin_size;
+rd_xsh = 0:bin_size/5:rd_nfv_esl(size(rd_nfv_esl,2))+bin_size;
 rd_esl_m = hist(rd_nfv_esl,rd_xsh);
 rd_esl_hist = hist(rd_nfv_esl,rd_xsh)/size(rd_nfv_esl,2);
 %% mean error and standard deviation
