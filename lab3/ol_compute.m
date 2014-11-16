@@ -1,8 +1,9 @@
-function [ol,im0] = ol_compute(d0,d1,im0)
+function [ol,im_new] = ol_compute(d0,d1,im0)
 
 rows = size(d0,1);
 colums = size(d0,2);
 ol = zeros([rows colums]);
+im_new = im0;
 
 for i = 1:rows
     for j = 1:colums
@@ -14,13 +15,13 @@ for i = 1:rows
         %% infinity 
         if d0(yl,xl) == Inf
             ol(i,j) = inf;
-            im0(i,j,:) = 1;
+            im_new(i,j,:) = 1;
         elseif xr<1
             ol(i,j) = -1;
-            im0(i,j,:) = 0;
-        elseif abs((d0(yl,xl)-d1(yr,xr)))<0.5
+            im_new(i,j,:) = 0;
+        elseif abs((d0(yl,xl)-d1(yr,xr)))<0.3
             ol(i,j)=0;
-        else ol(i,j)=1; im0(i,j,:) = 0;      
+        else ol(i,j)=1; im_new(i,j,:) = 0;      
         end
     end
 end

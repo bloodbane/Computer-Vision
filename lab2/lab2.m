@@ -1,4 +1,6 @@
-bf = im2double(imread('computers0.png'));
+dir = '../im/';
+object = 'computers0';
+bf = im2double(imread(strcat(dir,object,'-perf.png')));
 if size(bf,3)>1
   bf = rgb2gray(bf);
 end

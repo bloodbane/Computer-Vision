@@ -1,0 +1,13 @@
+# Install
+type "mex mexMiddPfmRead.c" in matlab console
+
+
+# Usage:
+This pfm reader is only for middlebury 2014 stereo database.
+So only one channel is supported, and it assumes a big
+endian machine, which should cover normal PC, OSX, Linux, ect..
+
+type "d = readMiddPfm('disp0.pfm');" to read a 'disp0.pfm' file.
+
+Note that the data is sub-pixel accurate, meaning the data is 
+not integer. You can use 'round' to convert it to 'integers'.
