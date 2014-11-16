@@ -37,16 +37,16 @@ epl_m = hist(fv_epl,xp);
 %% compute errors scattered-networks
 esl = es_compute( im0, im1, d0, ol, t_size );
 esl_array = sort(esl(:));
-fv_esl = esl_array(~isinf(esl_array))'.*times;
+fv_esl = esl_array(~isinf(esl_array))'.*3;
 xs = 0:bin_size:fv_esl(size(fv_esl,2));
-esl_m = hist(fv_esl,xs);
 %% normlize histogram
-persentage = round(threshold*size(fv_epl,2));
-nfv_epl = fv_epl(1,1:persentage);
+percentage = round(threshold*size(fv_epl,2));
+nfv_epl = fv_epl(1,1:percentage);
 xph = 0:bin_size:nfv_epl(size(nfv_epl,2))+bin_size;
 epl_hist = hist(nfv_epl,xph)/size(nfv_epl,2);
-nfv_esl = fv_esl(1,1:persentage).*times;
-xsh = 0:bin_size:nfv_esl(size(nfv_esl,2))+bin_size;
+nfv_esl = fv_esl(1,1:percentage).*times;
+xsh = 0:bin_size/2:nfv_esl(size(nfv_esl,2))+bin_size;
+esl_m = hist(nfv_esl,xsh);
 esl_hist = hist(nfv_esl,xsh)/size(nfv_esl,2);
 %% rd
 r = randi([1,2],rows,colums);
@@ -57,14 +57,14 @@ rd_epl_array = sort(rd_epl(:));
 rd_fv_epl = rd_epl_array(~isinf(rd_epl_array))';
 rd_esl = es_compute( im0, im1, rd_d0, ol, t_size );
 rd_esl_array = sort(rd_esl(:));
-rd_fv_esl = rd_esl_array(~isinf(rd_esl_array))';
+rd_fv_esl = rd_esl_array(~isinf(rd_esl_array))'.*3;
 rd_epl_m = hist(rd_fv_epl,xp);
-rd_esl_m = hist(rd_fv_esl,xs);
-rd_nfv_epl = rd_fv_epl(1,1:persentage);
+rd_nfv_epl = rd_fv_epl(1,1:percentage);
 rd_xph = 0:bin_size:rd_nfv_epl(size(rd_nfv_epl,2))+bin_size;
 rd_epl_hist = hist(rd_nfv_epl,rd_xph)/size(rd_nfv_epl,2);
-rd_nfv_esl = rd_fv_esl(1,1:persentage).*times;
-rd_xsh = 0:bin_size:rd_nfv_esl(size(rd_nfv_esl,2))+bin_size;
+rd_nfv_esl = rd_fv_esl(1,1:percentage).*times;
+rd_xsh = 0:bin_size/2:rd_nfv_esl(size(rd_nfv_esl,2))+bin_size;
+rd_esl_m = hist(rd_nfv_esl,rd_xsh);
 rd_esl_hist = hist(rd_nfv_esl,rd_xsh)/size(rd_nfv_esl,2);
 %% mean error and standard deviation
 [epl_me, epl_sd] = mesd_compute(nfv_epl, xph, epl_hist, epl_m);
@@ -80,16 +80,16 @@ hist(fv_esl,xs);
 xlabel({sprintf('full-scattered-networks')});
 figure
 bar(xph,epl_hist);
-xlabel({sprintf('n-pw, E:%.4f, sd:%.6f',epl_me,epl_sd)});
+xlabel({sprintf('n-pw, E:%.6f, sd:%.6f',epl_me,epl_sd)});
 figure
 bar(xsh,esl_hist);
-xlabel({sprintf('n-sn, E:%.4f, sd:%.6f',esl_me,esl_sd)});
+xlabel({sprintf('n-sn, E:%.6f, sd:%.6f',esl_me,esl_sd)});
 figure
 bar(rd_xph,rd_epl_hist);
-xlabel({sprintf('n-pw + rand, E:%.4f, sd:%.6f',epl_me_rd,epl_sd_rd)});
+xlabel({sprintf('n-pw + rand, E:%.6f, sd:%.6f',epl_me_rd,epl_sd_rd)});
 figure
 bar(rd_xsh,rd_esl_hist);
-xlabel({sprintf('n-sn + rand, E:%.4f, sd:%.6f',esl_me_rd,esl_sd_rd)});
+xlabel({sprintf('n-sn + rand, E:%.6f, sd:%.6f',esl_me_rd,esl_sd_rd)});
 
 toc;
     
