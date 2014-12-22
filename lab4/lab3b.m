@@ -40,9 +40,9 @@ toc;
 %% 
 tic;
 
-new_height = size(range_matrix,1);
-new_width = size(range_matrix,2);
-cost = matching_cost(range_matrix);
+new_height = size(cost_range,1);
+new_width = size(cost_range,2);
+cost = matching_cost(cost_range);
 disparity = zeros(new_height, new_width);
 flow = zeros(new_height, 1);
 for k = 1 : new_height  % row by row
