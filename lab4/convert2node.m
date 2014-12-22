@@ -1,4 +1,4 @@
-function nodeLabel = convet2node(UorV, x, y, ncols, nrows)  
+function nodeLabel = convert2node(UorV, x, y, ncols, nrows)  
 % Convert U_label and V_label to node indices (in the A matrix)
 %   input: 
 %         UorV:  'u' if u node, 'v' if v node
