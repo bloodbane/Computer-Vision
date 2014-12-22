@@ -1,7 +1,9 @@
-function [ output ] = stero1( im0, im1, d0, gap, t_size)
+function [ range_matrix , dis] = stero1( im0, im1, d0, gap, t_size)
 %STERO1 Summary of this function goes here
 %   Detailed explanation goes here
 range = gap*2+1;
+rows = size(im0,1);
+colums = size(im0,2);
 
 thetas = [0, pi/6,pi/3,pi/2,2*pi/3,5*pi/6];
 sigmas = [1, 3, 6];
@@ -24,8 +26,10 @@ for i = 1:sigma_num
 end
 
 range_matrix = zeros([round((rows-t_size)/gap) round((colums-t_size)/gap) range]);
-output = zeros([round((rows-t_size)/gap) round((colums-t_size)/gap)]);
+dis_range_matrix = zeros([round((rows-t_size)/gap) round((colums-t_size)/gap) range]);
+cost = zeros([round((rows-t_size)/gap) round((colums-t_size)/gap)]);
 I = zeros([round((rows-t_size)/gap) round((colums-t_size)/gap)]);
+dis = zeros([round((rows-t_size)/gap) round((colums-t_size)/gap)]);
 
 for i=16:gap:rows-16
     m = (i-8)/gap;
@@ -59,6 +63,7 @@ for i=16:gap:rows-16
             sign = mod(d,2)*(-2)+1;
             d0_translation = d_true + sign*gap*round((d-1)/2);
             x_new = j+d0_translation;
+            dis_range_matrix(m,n,d) = d0_translation;
             if x_new <= 0 || x_new > size(im1, 2)
                 range_matrix(m,n,d) = inf;
             else
@@ -74,11 +79,18 @@ for i=16:gap:rows-16
     end
 end
 
+
 for m = 1:size(range_matrix,1)
     for n = 1:size(range_matrix,2)
-        [output(m,n),I(m,n)] = min(range_matrix(m,n,:));
+        [cost(m,n),I(m,n)] = min(range_matrix(m,n,:));
+        if cost(m,n)==inf
+            dis(m,n) = inf;
+        else
+            dis(m,n) = dis_range_matrix(m,n,I(m,n));
+        end
     end
 end
+
 
 end
 
