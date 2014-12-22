@@ -52,7 +52,7 @@ for k = 1 : new_height  % row by row
     [disparity(k, :), flow(k)] = compute_line_cut(matching_error);
 end
 
-disparity_show = disparity;
+disparity_show = disparity.*gap;
 occlusion = ones(size(disparity_show));
 figure;
 imagesc(disparity_show); 
