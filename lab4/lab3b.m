@@ -3,7 +3,7 @@ clear all;
 tic;
 
 t_size = 32;
-gap = 8;
+gap = 16;
 
 addpath maxflow/;
 dir = '../im/';

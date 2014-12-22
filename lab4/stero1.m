@@ -32,9 +32,9 @@ I = zeros([round((rows-t_size)/gap) round((colums-t_size)/gap)]);
 dis = zeros([round((rows-t_size)/gap) round((colums-t_size)/gap)]);
 
 for i=16:gap:rows-16
-    m = (i-8)/gap;
+    m = (i-(16-gap))/gap;
     for j=16:gap:colums-16     
-        n = (j-8)/gap;
+        n = (j-(16-gap))/gap;
         if d0(i,j) == inf
             %% infinity case 2
             flag=0;
