@@ -3,12 +3,8 @@ tic;
 % build a graph using two corresponding lines of pixels and find disparity 
 % map by using graph cut method.
 %     input: 
-%             matching_err:  result of comparing two blocks of images by 
-%                            scattered networks
-%             contrast_left: lookup table of contrast between adjacent
-%                            pixels of left image 
-%             contrast_right:lookup table of contrast between adjacent
-%                            pixels of right image 
+%             matching_err:  a sparse matrix of one line of matching errors
+%                            within the range
 %     output:
 %             row_disparity: disparity map of one row
 %             flow:          maxflow of the generated graph
@@ -48,7 +44,7 @@ tic;
         end
     end
     
-%% Edges between graph and Source/Sink
+    % Edges between graph and Source/Sink
     T = sparse(graph_size, 2);
     % 1st col of T represents Source
     % 2nd col of T represents Sink
