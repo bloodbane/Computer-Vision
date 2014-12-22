@@ -1,3 +1,5 @@
 *.m~
 /out/
 test.m
+/lab4/*.fig
+/lab4/*.jpg
